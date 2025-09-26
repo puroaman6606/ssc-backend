@@ -35,7 +35,7 @@ app.use((req, res, next) => {
 
 const allowedOrigins = [
   "http://localhost:5173", // for local dev
-  "https://ssc-gk-quiz-mfep.vercel.app" // your deployed frontend
+  "https://ssc-gk-quiz-anku.vercel.app" // your deployed frontend
 ];
 
 app.use(
