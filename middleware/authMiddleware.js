@@ -1,6 +1,6 @@
 // middleware/authMiddleware.js
 const jwt = require("jsonwebtoken");
-const User = require("../models/user"); // need this if you want full user object
+const User = require("../models/User"); // need this if you want full user object
 // const JWT_SECRET = process.env.JWT_SECRET || "change_this_secret";
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) throw new Error("JWT_SECRET not defined");
