@@ -5,6 +5,7 @@ dotenv.config();
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
+
 // const achievementRoutes = require("./routes/achievementRoutes.js");
 
 
@@ -26,11 +27,31 @@ app.use((req, res, next) => {
 
 
 // CORS - allow your frontend origin or all in dev
-const clientUrl = process.env.CLIENT_URL || "*";
-app.use(cors({
-  origin: clientUrl,
-  credentials: true,
-}));
+// const clientUrl = process.env.CLIENT_URL || "*";
+// app.use(cors({
+//   origin: clientUrl,
+//   credentials: true,
+// }));
+
+const allowedOrigins = [
+  "http://localhost:5173", // for local dev
+  "https://ssc-gk-quiz-mfep.vercel.app" // your deployed frontend
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // allow requests with no origin (like Postman)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = `The CORS policy for this site does not allow access from the specified Origin.`;
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+    credentials: true, // if you use cookies
+  })
+);
 
 // routes
 app.use("/api/auth", require("./routes/authRoutes"));
@@ -40,6 +61,7 @@ app.use("/api/achievements", require("./routes/achievementRoutes.js"));
 app.use("/api/notifications", require("./routes/notificationRoutes"));
 app.use("/api/settings", require("./routes/settingsRoutes"));
 
+// CORS configuration
 
 
 // basic health route
